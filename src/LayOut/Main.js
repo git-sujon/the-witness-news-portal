@@ -3,7 +3,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { Outlet } from 'react-router-dom';
 import Footer from '../Pages/Shared/Footer/Footer';
 import Header from '../Pages/Shared/Header/Header';
-import RightSideNav from '../Pages/Shared/Header/RightSideNav/RightSideNav';
+import RightSideNav from '../Pages/Shared/RightSideNav/RightSideNav';
 import LeftSideNav from '../Pages/Shared/LeftSideNav/LeftSideNav';
 
 const Main = () => {
