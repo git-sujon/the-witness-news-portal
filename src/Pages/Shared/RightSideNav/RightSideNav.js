@@ -2,12 +2,29 @@ import React from 'react';
 import { FaGoogle, FaGithub, FaFacebookMessenger, FaFacebook, FaYoutube, FaTwitterSquare, FaWhatsappSquare, FaDiscord, FaFingerprint, FaReadme } from 'react-icons/fa';
 import { Button, ButtonGroup, ListGroup } from 'react-bootstrap';
 import BrandCarousel from '../BrandCarousel/BrandCarousel';
+import { useContext } from 'react';
+import { AuthContext } from '../../../contexts/AuthProvider';
+import { GoogleAuthProvider } from 'firebase/auth';
 
 const RightSideNav = () => {
+    const provider= new GoogleAuthProvider()
+    const { signInThirdparty } =useContext(AuthContext)
+    const googleSignInHandler = () => {
+        signInThirdparty(provider)
+        .then((res=> {
+            console.log(res)
+
+        }))
+        .catch((error=> {
+            console.error(error)
+            
+        }))
+    }
+
     return (
         <div className=''>
             <ButtonGroup vertical>
-                <Button className='mb-3' variant="outline-primary"><FaGoogle></FaGoogle> Sign In With Google</Button>
+                <Button onClick={googleSignInHandler} className='mb-3' variant="outline-primary"><FaGoogle></FaGoogle> Sign In With Google</Button>
                 <Button className='mb-3' variant="outline-secondary"><FaGithub></FaGithub> Sign in With Github</Button>
                 <Button className='mb-3' variant="outline-secondary"><FaFacebookMessenger></FaFacebookMessenger> Sign in With Facebook</Button>
             </ButtonGroup>
