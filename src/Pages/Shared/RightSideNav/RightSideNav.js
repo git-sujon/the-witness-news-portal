@@ -4,11 +4,12 @@ import { Button, ButtonGroup, ListGroup } from 'react-bootstrap';
 import BrandCarousel from '../BrandCarousel/BrandCarousel';
 import { useContext } from 'react';
 import { AuthContext } from '../../../contexts/AuthProvider';
-import { GoogleAuthProvider } from 'firebase/auth';
+import { GoogleAuthProvider, GithubAuthProvider, FacebookAuthProvider } from 'firebase/auth';
 
 const RightSideNav = () => {
     const provider= new GoogleAuthProvider()
-    const { signInThirdparty } =useContext(AuthContext)
+    const { signInThirdparty ,user, loading } =useContext(AuthContext)
+    console.log(user)
     const googleSignInHandler = () => {
         signInThirdparty(provider)
         .then((res=> {
@@ -21,12 +22,41 @@ const RightSideNav = () => {
         }))
     }
 
+
+    const gitHubSignHandler =() => {
+        const provider = new GithubAuthProvider()
+        signInThirdparty(provider)
+        .then(res=> {
+            console.log(res)
+
+        })
+        .catch(error=> {
+            console.error(error)
+        })
+    }
+    const facebookSignHandler =() => {
+        const provider = new FacebookAuthProvider()
+        signInThirdparty(provider)
+        .then(res=> {
+            console.log(res)
+
+        })
+        .catch(error=> {
+            console.error(error)
+        })
+    }
+
+
+    // if(loading) {
+    //     <div>Loading............</div>
+    // }
+
     return (
         <div className=''>
             <ButtonGroup vertical>
                 <Button onClick={googleSignInHandler} className='mb-3' variant="outline-primary"><FaGoogle></FaGoogle> Sign In With Google</Button>
-                <Button className='mb-3' variant="outline-secondary"><FaGithub></FaGithub> Sign in With Github</Button>
-                <Button className='mb-3' variant="outline-secondary"><FaFacebookMessenger></FaFacebookMessenger> Sign in With Facebook</Button>
+                <Button onClick={gitHubSignHandler} className='mb-3' variant="outline-secondary"><FaGithub></FaGithub> Sign in With Github</Button>
+                <Button onClick={facebookSignHandler} className='mb-3' variant="outline-secondary"><FaFacebookMessenger></FaFacebookMessenger> Sign in With Facebook</Button>
             </ButtonGroup>
             <div>
                 <h4>Find Us On</h4>

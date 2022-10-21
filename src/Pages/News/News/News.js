@@ -7,7 +7,7 @@ const News = () => {
   const news = useLoaderData();
   
 //   console.log(news)
-  const { title, details, author, image_url, _id , category_id} = news;
+  const { title, details,  image_url,  category_id} = news;
 
 
   return (
