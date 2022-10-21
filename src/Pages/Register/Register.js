@@ -1,5 +1,5 @@
 import { sendEmailVerification, updateProfile } from "firebase/auth";
-import React from "react";
+import React, { useState } from "react";
 import { useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -7,7 +7,14 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const Register = () => {
-  const { createUser, emailVarification, userInformationProviding,  setLoading } = useContext(AuthContext);
+
+  const [error, setError] = useState("");
+  const {
+    createUser,
+    emailVarification,
+    userInformationProviding,
+    setLoading,
+  } = useContext(AuthContext);
   const formHandler = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -19,20 +26,19 @@ const Register = () => {
     console.log(email, password, name, photoUrl);
 
     createUser(email, password)
-      .then(res => {
+      .then((res) => {
+      
+        form.reset();
+        
         console.log(res);
-        form.reset()
-        userInformationProviding(name, photoUrl)
-        emailVarification()
-        setLoading(false)
-
-        
-        
+        userInformationProviding(name, photoUrl);
+        emailVarification();
+        setLoading(false);
       })
       .catch((error) => {
         console.error(error);
+        setError(error.message.split('(')[1].split('/')[1].slice(0,-2).replace('-',' ').replace('-',' '));
       });
-
   };
 
   return (
@@ -73,6 +79,9 @@ const Register = () => {
               Sign-In here
             </Link>
           </p>
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+          <p className="text-danger">{error} </p>
         </Form.Group>
 
         <Button variant="primary" type="submit">
