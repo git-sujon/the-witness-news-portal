@@ -9,7 +9,7 @@ import { GoogleAuthProvider, GithubAuthProvider, FacebookAuthProvider } from 'fi
 const RightSideNav = () => {
     const provider= new GoogleAuthProvider()
     const { signInThirdparty ,user, loading } =useContext(AuthContext)
-    console.log(user)
+
     const googleSignInHandler = () => {
         signInThirdparty(provider)
         .then((res=> {

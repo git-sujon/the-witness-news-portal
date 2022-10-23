@@ -3,13 +3,18 @@ import { useState } from "react";
 import { useContext } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const Login = () => {
   const [error, setError] = useState("");
+  const navigate= useNavigate() 
+  const location= useLocation()
+  const from = location.state?.from?.pathname || "/";
+  // console.log(from)
 
-  const { signIn } = useContext(AuthContext);
+  const { signIn, setLoading } = useContext(AuthContext);
 
   const formHandler = (event) => {
     event.preventDefault();
@@ -17,18 +22,30 @@ const Login = () => {
     const email = form.email.value;
     const password = form.password.value;
 
+
     // console.log(email, password);
 
     signIn(email, password)
       .then((res) => {
         form.reset()
-        console.log(res);
+        const user=res.user
+        if (user.emailVerified) {
+          navigate(from, {replace:true})
+        }
+        else {
+          toast.error("Please Verify your Email")
+        }
+
       })
       .catch(error => {
         setError(error.message.split('(')[1].split('/')[1].slice(0,-2).replace('-',' ').replace('-',' '));
-        console.log(error);
+        console.error(error);
         
-      });
+      })
+
+      .finally(()=> {
+        setLoading(false)
+      })
   };
 
   return (
@@ -50,10 +67,10 @@ const Login = () => {
 
         <Form.Group className="mb-3" controlId="formBasicCheckbox">
           <p>
-            Don't Have an account?,{" "}
+            Don't Have an account?,
             <Link className="text-decoration-none text-warning" to="/register">
               Create a Account
-            </Link>{" "}
+            </Link>
           </p>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicCheckbox">

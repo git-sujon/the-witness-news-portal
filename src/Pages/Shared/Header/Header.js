@@ -63,7 +63,7 @@ const Header = () => {
                 ""
               )}
 
-              {user && user?.uid ? (
+              {user  ? (
                 <button
                   onClick={signOutHandler}
                   className="btn btn-sm fw-bold ms-3 btn-outline-info"
