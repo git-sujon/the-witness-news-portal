@@ -20,17 +20,17 @@ const Routes = createBrowserRouter([
             {
                 path:'/',
                 element:<Home></Home>,
-                loader:()=> fetch('http://localhost:5000/news')
+                loader:()=> fetch('https://the-witness-server.vercel.app/news')
             },
             {
                 path:'/catagories/:id',
                 element:<Catagories></Catagories>,
-                loader:({params})=> fetch(`http://localhost:5000/catagories/${params.id}`)
+                loader:({params})=> fetch(`https://the-witness-server.vercel.app/catagories/${params.id}`)
             },
             {
                 path: '/news/:id',
                 element:<PrivateRoute><News></News></PrivateRoute>,
-                loader:({params})=> fetch(`http://localhost:5000/news/${params.id}`)
+                loader:({params})=> fetch(`https://the-witness-server.vercel.app/news/${params.id}`)
             },
             {
                 path:'/profile',
